@@ -60,6 +60,7 @@ const parseBody = (request, response, handler) => {
   };
  
   // handle POST requests
+  /*
   const handlePost = (request, response, parsedUrl) => {
     // If they go to /addUser
     if (parsedUrl.pathname === '/addUser') {
@@ -67,20 +68,40 @@ const parseBody = (request, response, handler) => {
       // jsonHandler.addUser function as the handler callback function.
       parseBody(request, response, jsonHandler.addUser);
     }
-  };
+  };*/
  
   // handle GET requests
   const handleGet = (request, response, parsedUrl) => {
     // route to correct method based on url
     if (parsedUrl.pathname === '/style.css') {
       htmlHandler.getCSS(request, response);
-    } else if (parsedUrl.pathname === '/success') {
+    }
+    else if (parsedUrl.pathname === '/success') {
       jsonHandler.getSuccess(request, response);
-    } else if (parsedUrl.pathname === '/badRequest') {
+    }
+    else if (parsedUrl.pathname === '/badRequest') {
       const valid = parsedUrl.searchParams.get('valid');
       jsonHandler.getBadRequest(request, response, valid);
-    } else {
+    }
+    else if (parsedUrl.pathname === '/unauthorized') {
+      const loggedIn = parsedUrl.searchParams.get('loggedIn');
+      jsonHandler.getUnauthorized(request, response, loggedIn);
+    }
+    else if (parsedUrl.pathname === '/forbidden') {
+      jsonHandler.getForbidden(request, response);
+    }
+    else if (parsedUrl.pathname === '/internal') {
+      jsonHandler.getInternal(request, response);
+    }
+    else if (parsedUrl.pathname === '/notImplemented') {
+      jsonHandler.getNotImplemented(request, response);
+    }
+    else if (parsedUrl.pathname === '/notFound') {
+      jsonHandler.getNotFound(request, response);
+    }
+    else {
       htmlHandler.getIndex(request, response);
+      console.log('On the else statement page!!')
     }
   };  
 

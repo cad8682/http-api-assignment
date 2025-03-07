@@ -5,7 +5,7 @@
 // When node shuts down this will be cleared.
 // Same when your heroku app shuts down from inactivity
 // We will be working with databases in the next few weeks.
-const users = {};
+//const users = {};
 
 
 // function to respond with a json object
@@ -52,7 +52,7 @@ const getSuccess = (request, response) => {
 
 
   const responseData = {
-    message: 'Success! (:',
+    message: 'Message: This is a successful response (:',
   };
     respond(request, response, 200, responseData);
 };
@@ -61,20 +61,77 @@ const getSuccess = (request, response) => {
 const getBadRequest = (request, response, valid) => {
   if (valid === 'true') {
     const responseData = {
-      message: 'Bad Request, Valid Parameter',
+      message: 'Message: Bad Request, Valid Parameter',
     };
     respond(request, response, 200, responseData);
   }
   else {
     const responseData = {
-      message: 'Bad Request, Invalid Parameter',
-      id: 'badRequest'
+      message: 'Message: Bad Request, Invalid Parameter',
+      id: 'Id: badRequest'
     };
     respond(request, response, 400, responseData);
   }
 };
 
+const getUnauthorized = (request, response, loggedIn) => {
+  if (loggedIn === 'true') {
+    const responseData = {
+      message: 'Message: Unauthorized, Valid Parameter',
+    };
+    respond(request, response, 200, responseData);
+  }
+  else {
+    const responseData = {
+      message: 'Message: Unauthorized, Invalid Parameter',
+      id: 'Id: unauthorized'
+    };
+    respond(request, response, 401, responseData);
+  }
+};
 
+const getForbidden = (request, response) => {
+  console.log(request.headers['accept']);
+
+
+  const responseData = {
+    message: 'Message: You do not have access to this content',
+  };
+    respond(request, response, 403, responseData);
+};
+
+const getInternal = (request, response) => {
+  console.log(request.headers['accept']);
+
+
+  const responseData = {
+    message: 'Message: Internal server error, something went wrong',
+  };
+    respond(request, response, 500, responseData);
+};
+
+const getNotImplemented = (request, response) => {
+  console.log(request.headers['accept']);
+
+
+  const responseData = {
+    message: 'Message: A get request for this page has not been implemented yet. Check again later for updated content',
+  };
+    respond(request, response, 501, responseData);
+};
+
+const getNotFound = (request, response) => {
+  console.log(request.headers['accept']);
+
+
+  const responseData = {
+    message: 'Message: The page you were looking for cannot be found',
+  };
+    respond(request, response, 404, responseData);
+};
+
+
+/*
 // function to add a user from a POST body
 const addUser = (request, response) => {
   // default json message
@@ -131,12 +188,17 @@ const addUser = (request, response) => {
   // to our respondJSON function it would break. So we send in an
   // empty object, which will stringify to an empty string.
   return respondJSON(request, response, responseCode, {});
-};
+};*/
 
 
 // public exports
 module.exports = {
   getSuccess,
   getBadRequest,
-  addUser,
+  getUnauthorized,
+  getForbidden,
+  getInternal,
+  getNotImplemented,
+  getNotFound
+  //addUser,
 };

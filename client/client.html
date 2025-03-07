@@ -28,8 +28,16 @@
         case 400: //bad request
           content.innerHTML = `<b>Bad Request</b>`;
           break;
-        default: //any other status code
-          content.innerHTML = `Error code not implemented by client.`;
+        case 401:
+          content.innerHTML = `<b>Unauthorized</b>`;
+        case 403:
+          content.innerHTML = `<b>Forbidden</b>`;
+        case 500:
+          content.innerHTML = `<b>Internal</b>`;
+        case 501:
+          content.innerHTML = `<b>Not Implemented</b>`;
+        default : //404
+          content.innerHTML = `<b>Resource Not Found</b>`;
           break;
       }
 
@@ -121,7 +129,8 @@
       <option value="/success">Success</option>
       <option value="/badRequest?valid=false">Bad Request - Invalid Param</option>
       <option value="/badRequest?valid=true">Bad Request - Valid Param</option>
-      <option value="/unauthorized">Unauthorized</option>
+      <option value="/unauthorized?loggedIn=false">Unauthorized - Invalid Param</option>
+      <option value="/unauthorizedloggedIn=true">Unauthorized - Valid Param</option>
       <option value="/forbidden">Forbidden</option>
       <option value="/internal">Internal</option>
       <option value="/notImplemented">Not Implemented</option>
