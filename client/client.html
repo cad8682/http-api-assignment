@@ -13,30 +13,34 @@
       //Grab the content section
       const content = document.querySelector('#content');
 
-
       //Based on the status code, display something
       switch(response.status) {
-        case 200: //success
+        case 200: // Success
           content.innerHTML = `<b>Success</b>`;
           break;
-        case 201: //created
+        case 201: // Created
           content.innerHTML = '<b>Created</b>';
           break;
-        case 204: //updated (no response back from server)
+        case 204: // Updated (no response back from server)
           content.innerHTML = '<b>Updated (No Content)</b>';
+          break;
           return;
-        case 400: //bad request
+        case 400: // Bad request
           content.innerHTML = `<b>Bad Request</b>`;
           break;
-        case 401:
+        case 401: // Unauthorized
           content.innerHTML = `<b>Unauthorized</b>`;
-        case 403:
+          break;
+        case 403: //Forbidden
           content.innerHTML = `<b>Forbidden</b>`;
-        case 500:
+          break;
+        case 500: //Internal error
           content.innerHTML = `<b>Internal</b>`;
-        case 501:
+          break;
+        case 501: //Not implemented
           content.innerHTML = `<b>Not Implemented</b>`;
-        default : //404
+          break;
+        default : //404 not found
           content.innerHTML = `<b>Resource Not Found</b>`;
           break;
       }
@@ -89,7 +93,6 @@
           'Content-Type': 'application/x-www-form-urlencoded',
           'Accept': fileType,
         }
-        //body: formData,
       });
 
 
@@ -105,15 +108,15 @@
       const sendButton = document.querySelector('#send');
       const acceptSelector = document.querySelector('#type');
      
-      //Create an addUser function that cancels the forms default action and
-      //calls our sendPost function above.
+      //Create an onSubmit function that cancels the forms default action and
+      //calls our sendn function above.
       const onSubmit = (e) => {
         e.preventDefault();
         send(statusCodeSelector.value, acceptSelector.value);
         return false;
       }
      
-      //Call addUser when the submit event fires on the form.
+      //Call onSubmit when the submit event fires on the form.
       sendButton.addEventListener('click', onSubmit);
     };
 
@@ -130,7 +133,7 @@
       <option value="/badRequest?valid=false">Bad Request - Invalid Param</option>
       <option value="/badRequest?valid=true">Bad Request - Valid Param</option>
       <option value="/unauthorized?loggedIn=false">Unauthorized - Invalid Param</option>
-      <option value="/unauthorizedloggedIn=true">Unauthorized - Valid Param</option>
+      <option value="/unauthorized?loggedIn=true">Unauthorized - Valid Param</option>
       <option value="/forbidden">Forbidden</option>
       <option value="/internal">Internal</option>
       <option value="/notImplemented">Not Implemented</option>

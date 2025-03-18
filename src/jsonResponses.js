@@ -1,15 +1,4 @@
-//FROM FINISHED EXAMPLE
-
-
-// Note this object is purely in memory
-// When node shuts down this will be cleared.
-// Same when your heroku app shuts down from inactivity
-// We will be working with databases in the next few weeks.
-//const users = {};
-
-
-// function to respond with a json object
-// takes request, response, status code and object to send
+// Figure out how to format data based on whether the user wants XML or JSON
 const respond = (request, response, status, object) => {
   let content;
   if (request.headers['accept'] === 'text/xml') {
@@ -35,18 +24,14 @@ const respond = (request, response, status, object) => {
   }
 
 
-  // HEAD requests don't get a body with their response.
-    // Similarly, 204 status codes are "no content" responses
-    // so they also do not get a response body.
-    if (request.method !== 'HEAD' && status !== 204) {
-      response.write(content);
-    }
+  if (request.method !== 'HEAD' && status !== 204) {
+    response.write(content);
+  }
  
   response.end();
 };
 
-
-// return user object as JSON
+// Success page
 const getSuccess = (request, response) => {
   console.log(request.headers['accept']);
 
@@ -57,7 +42,7 @@ const getSuccess = (request, response) => {
     respond(request, response, 200, responseData);
 };
 
-
+// Bad Request page with true | false parameter valid
 const getBadRequest = (request, response, valid) => {
   if (valid === 'true') {
     const responseData = {
@@ -74,6 +59,7 @@ const getBadRequest = (request, response, valid) => {
   }
 };
 
+// Unauthorized page with true | false parameter loggedIn
 const getUnauthorized = (request, response, loggedIn) => {
   if (loggedIn === 'true') {
     const responseData = {
@@ -90,6 +76,7 @@ const getUnauthorized = (request, response, loggedIn) => {
   }
 };
 
+// Forbidden page
 const getForbidden = (request, response) => {
   console.log(request.headers['accept']);
 
@@ -110,6 +97,7 @@ const getInternal = (request, response) => {
     respond(request, response, 500, responseData);
 };
 
+// Not Implemented page
 const getNotImplemented = (request, response) => {
   console.log(request.headers['accept']);
 
@@ -120,6 +108,7 @@ const getNotImplemented = (request, response) => {
     respond(request, response, 501, responseData);
 };
 
+// Not Found page
 const getNotFound = (request, response) => {
   console.log(request.headers['accept']);
 
@@ -130,68 +119,7 @@ const getNotFound = (request, response) => {
     respond(request, response, 404, responseData);
 };
 
-
-/*
-// function to add a user from a POST body
-const addUser = (request, response) => {
-  // default json message
-  const responseJSON = {
-    message: 'Name and age are both required.',
-  };
-
-
-  // grab name and age out of request.body for convenience
-  // If either name or age do not exist in the request,
-  // they will be set to undefined
-  const { name, age } = request.body;
-
-
-  // check to make sure we have both fields
-  // We might want more validation than just checking if they exist
-  // This could easily be abused with invalid types (such as booleans, numbers, etc)
-  // If either are missing, send back an error message as a 400 badRequest
-  if (!name || !age) {
-    responseJSON.id = 'missingParams';
-    return respondJSON(request, response, 400, responseJSON);
-  }
-
-
-  // default status code to 204 updated
-  let responseCode = 204;
-
-
-  // If the user doesn't exist yet
-  if (!users[name]) {
-    // Set the status code to 201 (created) and create an empty user
-    responseCode = 201;
-    users[name] = {
-      name: name,
-    };
-  }
-
-
-  // add or update fields for this user name
- 
-  users[name].age = age;
-
-
-  // if response is created, then set our created message
-  // and sent response with a message
-  if (responseCode === 201) {
-    responseJSON.message = 'Created Successfully';
-    return respondJSON(request, response, responseCode, responseJSON);
-  }
-
-
-  // When we send back a 204 status code, it will not send response
-  // body. However, if we didn't pass in an object as the 4th param
-  // to our respondJSON function it would break. So we send in an
-  // empty object, which will stringify to an empty string.
-  return respondJSON(request, response, responseCode, {});
-};*/
-
-
-// public exports
+// Exports
 module.exports = {
   getSuccess,
   getBadRequest,
@@ -200,5 +128,4 @@ module.exports = {
   getInternal,
   getNotImplemented,
   getNotFound
-  //addUser,
 };
