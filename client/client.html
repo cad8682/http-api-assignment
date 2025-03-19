@@ -45,9 +45,6 @@
           break;
       }
 
-
-      //Parse the response to json. This works because we know the server always
-      //sends back json. Await because .json() is an async function.
       let contentType = response.headers.get('Content-Type');
       let obj = {};
       if (response.headers.get('Content-Type') === 'text/xml') {
